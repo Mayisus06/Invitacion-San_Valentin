@@ -17,12 +17,25 @@ const pleaTextsLegacy = [
 ];
 */
 const noPleaTexts = [
-  "Ay nooo... di que si, porfa",
-  "Prometo cuidarte mucho. Di que si",
-  "No me rompas el cora, amooor. Di que si",
-  "Ultima oportunidad: di que si, por favor"
+  "Ay nooo... di que sí, porfa",
+  "Prometo cuidarte mucho. Di que sí",
+  "No me rompas el cora, amooor. Di que sí",
+  "Última oportunidad: di que sí, por favor"
 ];
 const EDGE_PADDING = 120;
+const questionText = "¿Quieres ser mi San Valentín?";
+
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
+const getEdgePadding = (rect: DOMRect) => {
+  const minSide = Math.min(rect.width, rect.height);
+  return Math.min(EDGE_PADDING, Math.max(56, Math.round(minSide * 0.18)));
+};
+
+const getMoveDistance = (rect: DOMRect) => {
+  const minSide = Math.min(rect.width, rect.height);
+  return Math.min(170, Math.max(110, Math.round(minSide * 0.28)));
+};
 
 function Question({ onYes }: QuestionProps) {
   const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
@@ -35,6 +48,28 @@ function Question({ onYes }: QuestionProps) {
   const noButtonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const particleIdRef = useRef(0);
+
+  useEffect(() => {
+    const setInitialNoButtonPosition = () => {
+      if (!containerRef.current) {
+        return;
+      }
+
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const edgePadding = getEdgePadding(containerRect);
+      const defaultX = containerRect.width * (containerRect.width < 520 ? 0.7 : 0.68);
+      const defaultY = containerRect.height * (containerRect.height < 700 ? 0.68 : 0.6);
+
+      setNoButtonPos({
+        x: clamp(defaultX, edgePadding, containerRect.width - edgePadding),
+        y: clamp(defaultY, edgePadding, containerRect.height - edgePadding),
+      });
+    };
+
+    setInitialNoButtonPosition();
+    window.addEventListener('resize', setInitialNoButtonPosition);
+    return () => window.removeEventListener('resize', setInitialNoButtonPosition);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -51,19 +86,25 @@ function Question({ onYes }: QuestionProps) {
           Math.pow(e.clientY - buttonCenterY, 2)
         );
 
-        if (distance < 150) {
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const triggerDistance = Math.min(
+          160,
+          Math.max(110, Math.round(Math.min(containerRect.width, containerRect.height) * 0.3))
+        );
+
+        if (distance < triggerDistance) {
           const angle = Math.atan2(
             buttonCenterY - e.clientY,
             buttonCenterX - e.clientX
           );
 
-          const containerRect = containerRef.current.getBoundingClientRect();
-          const moveDistance = 150;
+          const moveDistance = getMoveDistance(containerRect);
           let newX = buttonCenterX + Math.cos(angle) * moveDistance;
           let newY = buttonCenterY + Math.sin(angle) * moveDistance;
 
-          newX = Math.max(EDGE_PADDING, Math.min(containerRect.width - EDGE_PADDING, newX));
-          newY = Math.max(EDGE_PADDING, Math.min(containerRect.height - EDGE_PADDING, newY));
+          const edgePadding = getEdgePadding(containerRect);
+          newX = clamp(newX, edgePadding, containerRect.width - edgePadding);
+          newY = clamp(newY, edgePadding, containerRect.height - edgePadding);
 
           setNoButtonPos({ x: newX, y: newY });
           setNoTextIndex((prev) => Math.min(prev + 1, noTexts.length - 1));
@@ -89,6 +130,7 @@ function Question({ onYes }: QuestionProps) {
   }, []);
 
   useEffect(() => {
+    const intervalMs = window.matchMedia('(pointer: coarse)').matches ? 320 : 200;
     const interval = setInterval(() => {
       const newParticle = {
         id: particleIdRef.current++,
@@ -99,7 +141,7 @@ function Question({ onYes }: QuestionProps) {
       setTimeout(() => {
         setParticles((prev) => prev.filter((p) => p.id !== newParticle.id));
       }, 5000);
-    }, 200);
+    }, intervalMs);
 
     return () => clearInterval(interval);
   }, []);
@@ -110,10 +152,11 @@ function Question({ onYes }: QuestionProps) {
     }
 
     const containerRect = containerRef.current.getBoundingClientRect();
-    const safeWidth = Math.max(containerRect.width - EDGE_PADDING * 2, 0);
-    const safeHeight = Math.max(containerRect.height - EDGE_PADDING * 2, 0);
-    const newX = EDGE_PADDING + Math.random() * safeWidth;
-    const newY = EDGE_PADDING + Math.random() * safeHeight;
+    const edgePadding = getEdgePadding(containerRect);
+    const safeWidth = Math.max(containerRect.width - edgePadding * 2, 0);
+    const safeHeight = Math.max(containerRect.height - edgePadding * 2, 0);
+    const newX = edgePadding + Math.random() * safeWidth;
+    const newY = edgePadding + Math.random() * safeHeight;
 
     setNoButtonPos({ x: newX, y: newY });
   };
@@ -158,11 +201,11 @@ function Question({ onYes }: QuestionProps) {
 
       <div className="content">
         <h1 className="title">
-          buenos dias amooor amooor <Heart className="inline-heart" fill="currentColor" />
+          buenos días amooor amooor <Heart className="inline-heart" fill="currentColor" />
         </h1>
 
         <div className="question-text">
-          {Array.from("¿Quieres ser mi San Valentín?").map((char, index) => (
+          {Array.from(questionText).map((char, index) => (
             <span
               key={index}
               className="letter"
@@ -183,7 +226,7 @@ function Question({ onYes }: QuestionProps) {
               transform: `scale(${yesScale})`,
             }}
           >
-            <span className="button-text">SÍ</span>
+            <span className="button-text">Sí</span>
             <div className="button-glow"></div>
             <div className="rotating-border"></div>
           </button>
@@ -197,7 +240,7 @@ function Question({ onYes }: QuestionProps) {
         onClick={handleNoClick}
         style={{
           position: 'fixed',
-          left: noButtonPos.x || 'calc(50% + 200px)',
+          left: noButtonPos.x || 'calc(50% + clamp(80px, 18vw, 200px))',
           top: noButtonPos.y || '60%',
           transform: 'translate(-50%, -50%)',
           transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
