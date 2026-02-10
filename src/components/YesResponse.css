@@ -1,0 +1,374 @@
+.yes-response-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ff1493 0%, #ec4899 25%, #8b5cf6 50%, #f97316 75%, #ff69b4 100%);
+  background-size: 400% 400%;
+  animation: explosiveGradient 3s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.celebration {
+  animation: screenShake 0.5s ease-in-out;
+}
+
+@keyframes screenShake {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translate(-5px, 5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translate(5px, -5px);
+  }
+}
+
+@keyframes explosiveGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-background-yes {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.gradient-pulse {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+  animation: pulseOut 2s ease-out infinite;
+}
+
+.pulse1 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 0s;
+}
+
+.pulse2 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 0.7s;
+}
+
+.pulse3 {
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 1.4s;
+}
+
+@keyframes pulseOut {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  z-index: 1000;
+  font-size: 20px;
+}
+
+.fireworks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.firework {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+  animation: fireworkExplode 2s ease-out infinite;
+  box-shadow: 0 0 20px #fff,
+              0 0 40px #ff1493,
+              0 0 60px #ff69b4;
+}
+
+@keyframes fireworkExplode {
+  0% {
+    transform: translateY(100%) scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20%) scale(0);
+    opacity: 0;
+  }
+}
+
+.content-yes {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
+}
+
+.massive-heart {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: 0 auto 3rem;
+  animation: massiveHeartBeat 1.5s ease-in-out infinite;
+}
+
+.heart-icon {
+  width: 100%;
+  height: 100%;
+  color: #ff1493;
+  filter: drop-shadow(0 0 40px rgba(255, 20, 147, 0.8))
+          drop-shadow(0 0 80px rgba(255, 105, 180, 0.6));
+  animation: heartPulseColor 2s ease-in-out infinite;
+}
+
+@keyframes massiveHeartBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.1);
+  }
+  20% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+@keyframes heartPulseColor {
+  0%, 100% {
+    color: #ff1493;
+  }
+  25% {
+    color: #ff69b4;
+  }
+  50% {
+    color: #ec4899;
+  }
+  75% {
+    color: #f97316;
+  }
+}
+
+.heart-glow {
+  position: absolute;
+  inset: -50px;
+  background: radial-gradient(circle, rgba(255, 20, 147, 0.4), transparent);
+  animation: glowPulse 2s ease-in-out infinite;
+  border-radius: 50%;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.orbiting-particles {
+  position: absolute;
+  inset: 0;
+}
+
+.orbit-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 30px;
+  animation: orbit 3s linear infinite;
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateY(-150px);
+  }
+  to {
+    transform: rotate(360deg) translateY(-150px);
+  }
+}
+
+.response-text {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 800;
+  background: linear-gradient(
+    45deg,
+    #ff1493,
+    #ff69b4,
+    #8b5cf6,
+    #ec4899,
+    #f97316,
+    #ffc0cb
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowShift 2s ease infinite;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.8));
+}
+
+@keyframes rainbowShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.response-letter {
+  display: inline-block;
+  animation: letterBounce 0.5s ease-out;
+}
+
+@keyframes letterBounce {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.subtitle-text {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 600;
+  color: white;
+  animation: subtitleFadeIn 1s ease-out, subtitleFloat 3s ease-in-out infinite;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+               0 0 40px rgba(255, 105, 180, 0.6),
+               0 0 60px rgba(255, 20, 147, 0.4);
+}
+
+@keyframes subtitleFadeIn {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes subtitleFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.light-rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.light-ray {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), transparent);
+  transform-origin: top center;
+  animation: rayRotate 4s linear infinite;
+}
+
+@keyframes rayRotate {
+  from {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 0.3;
+  }
+}
+
+@media (max-width: 768px) {
+  .massive-heart {
+    width: 250px;
+    height: 250px;
+  }
+
+  .response-text {
+    font-size: 2rem;
+  }
+
+  .subtitle-text {
+    font-size: 1.25rem;
+  }
+
+  .orbit-particle {
+    font-size: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yes-response-container,
+  .gradient-pulse,
+  .firework,
+  .massive-heart,
+  .heart-icon,
+  .heart-glow,
+  .orbit-particle,
+  .response-text,
+  .subtitle-text,
+  .light-ray {
+    animation: none;
+  }
+}
