@@ -20,7 +20,9 @@ function YesResponse() {
   const confettiIdRef = useRef(0);
   const animationFrameRef = useRef<number>();
 
-  const fullText = '¡Sabía que dirías que sí!';
+  const fullText = 'Sabia que dirias que si, soy muy listo.';
+  const dancerGif =
+    'https://media1.tenor.com/m/0_rWNXlW6OkAAAAd/oso-bailando.gif';
 
   useEffect(() => {
     document.body.classList.add('celebration');
@@ -173,23 +175,38 @@ function YesResponse() {
       </div>
 
       <div className="content-yes">
-        <div className="massive-heart">
-          <Heart className="heart-icon" fill="currentColor" />
-          <div className="heart-glow"></div>
-          <div className="orbiting-particles">
-            {[...Array(12)].map((_, i) => (
-              <div
-                key={i}
-                className="orbit-particle"
-                style={{
-                  transform: `rotate(${i * 30}deg) translateY(-150px)`,
-                  animationDelay: `${i * 0.1}s`,
-                }}
-              >
-                ✨
-              </div>
-            ))}
+        <div className="heart-stage">
+          <img
+            className="dancing-dancer left-dancer"
+            src={dancerGif}
+            alt="Bailarina"
+          />
+
+          <div className="massive-heart">
+            <Heart className="heart-icon" fill="currentColor" />
+            <div className="heart-text">ERES LA MEJOR</div>
+            <div className="heart-glow"></div>
+            <div className="orbiting-particles">
+              {[...Array(12)].map((_, i) => (
+                <div
+                  key={i}
+                  className="orbit-particle"
+                  style={{
+                    transform: `rotate(${i * 30}deg) translateY(-150px)`,
+                    animationDelay: `${i * 0.1}s`,
+                  }}
+                >
+                  ✨
+                </div>
+              ))}
+            </div>
           </div>
+
+          <img
+            className="dancing-dancer right-dancer"
+            src={dancerGif}
+            alt="Bailarina"
+          />
         </div>
 
         <div className="response-text">
@@ -208,7 +225,7 @@ function YesResponse() {
 
         {showSubtitle && (
           <div className="subtitle-text">
-            Seremos el mejor San Valentín 💕
+            Te amo mucho mi amor ❤️
           </div>
         )}
       </div>

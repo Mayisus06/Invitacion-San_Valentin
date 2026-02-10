@@ -8,10 +8,28 @@ interface QuestionProps {
 
 const noTexts = ["No", "¿Segura?", "Piénsalo", "Dale", "Porfa 🥺"];
 
+/*
+const pleaTextsLegacy = [
+  "Ay nooo... di que si, porfa ðŸ¥º",
+  "Prometo cuidarte mucho. Di que si ðŸ’–",
+  "No me rompas el cora, amooor. Di que si ðŸ«¶",
+  "Ultima oportunidad: di que si, por favor ðŸ’•"
+];
+*/
+const noPleaTexts = [
+  "Ay nooo... di que si, porfa",
+  "Prometo cuidarte mucho. Di que si",
+  "No me rompas el cora, amooor. Di que si",
+  "Ultima oportunidad: di que si, por favor"
+];
+const EDGE_PADDING = 120;
+
 function Question({ onYes }: QuestionProps) {
   const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
   const [noTextIndex, setNoTextIndex] = useState(0);
   const [yesScale, setYesScale] = useState(1);
+  const [noPleaText, setNoPleaText] = useState('');
+  const [pleaIndex, setPleaIndex] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number }>>([]);
   const noButtonRef = useRef<HTMLButtonElement>(null);
@@ -44,8 +62,8 @@ function Question({ onYes }: QuestionProps) {
           let newX = buttonCenterX + Math.cos(angle) * moveDistance;
           let newY = buttonCenterY + Math.sin(angle) * moveDistance;
 
-          newX = Math.max(100, Math.min(containerRect.width - 100, newX));
-          newY = Math.max(100, Math.min(containerRect.height - 100, newY));
+          newX = Math.max(EDGE_PADDING, Math.min(containerRect.width - EDGE_PADDING, newX));
+          newY = Math.max(EDGE_PADDING, Math.min(containerRect.height - EDGE_PADDING, newY));
 
           setNoButtonPos({ x: newX, y: newY });
           setNoTextIndex((prev) => Math.min(prev + 1, noTexts.length - 1));
@@ -86,6 +104,29 @@ function Question({ onYes }: QuestionProps) {
     return () => clearInterval(interval);
   }, []);
 
+  const moveNoButtonRandom = () => {
+    if (!containerRef.current) {
+      return;
+    }
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const safeWidth = Math.max(containerRect.width - EDGE_PADDING * 2, 0);
+    const safeHeight = Math.max(containerRect.height - EDGE_PADDING * 2, 0);
+    const newX = EDGE_PADDING + Math.random() * safeWidth;
+    const newY = EDGE_PADDING + Math.random() * safeHeight;
+
+    setNoButtonPos({ x: newX, y: newY });
+  };
+
+  const handleNoClick = () => {
+    const nextPlea = noPleaTexts[pleaIndex % noPleaTexts.length];
+    setNoPleaText(nextPlea);
+    setPleaIndex((prev) => (prev + 1) % noPleaTexts.length);
+    setNoTextIndex((prev) => Math.min(prev + 1, noTexts.length - 1));
+    setYesScale((prev) => Math.min(prev + 0.2, 2.5));
+    moveNoButtonRandom();
+  };
+
   return (
     <div className="question-container" ref={containerRef}>
       <div className="animated-background">
@@ -117,7 +158,7 @@ function Question({ onYes }: QuestionProps) {
 
       <div className="content">
         <h1 className="title">
-          Hey Sohley <Heart className="inline-heart" fill="currentColor" />
+          buenos dias amooor amooor <Heart className="inline-heart" fill="currentColor" />
         </h1>
 
         <div className="question-text">
@@ -147,21 +188,24 @@ function Question({ onYes }: QuestionProps) {
             <div className="rotating-border"></div>
           </button>
 
-          <button
-            ref={noButtonRef}
-            className="no-button"
-            style={{
-              position: 'absolute',
-              left: noButtonPos.x || 'calc(50% + 200px)',
-              top: noButtonPos.y || '60%',
-              transform: 'translate(-50%, -50%)',
-              transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-            }}
-          >
-            <span className="button-text">{noTexts[noTextIndex]}</span>
-          </button>
         </div>
       </div>
+
+      <button
+        ref={noButtonRef}
+        className="no-button"
+        onClick={handleNoClick}
+        style={{
+          position: 'fixed',
+          left: noButtonPos.x || 'calc(50% + 200px)',
+          top: noButtonPos.y || '60%',
+          transform: 'translate(-50%, -50%)',
+          transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          zIndex: 20,
+        }}
+      >
+        <span className="button-text">{noPleaText || noTexts[noTextIndex]}</span>
+      </button>
 
       <div className="ambient-hearts">
         {[...Array(20)].map((_, i) => (

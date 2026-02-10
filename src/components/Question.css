@@ -3,7 +3,10 @@
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  background: linear-gradient(135deg, #ff1493 0%, #8b5cf6 50%, #ec4899 100%);
+  background:
+    radial-gradient(1200px 800px at 10% 10%, rgba(255, 255, 255, 0.45), transparent 60%),
+    radial-gradient(900px 700px at 90% 20%, rgba(255, 255, 255, 0.25), transparent 55%),
+    linear-gradient(135deg, #f7b9cf 0%, #c7b8f2 52%, #f5c2d7 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,7 +29,7 @@
 .blob1 {
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, #ff69b4, #ff1493);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35), #f3b4cf);
   top: -10%;
   left: -10%;
   animation-delay: 0s;
@@ -35,7 +38,7 @@
 .blob2 {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, #8b5cf6, #ec4899);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25), #bfa7f0);
   bottom: -5%;
   right: -5%;
   animation-delay: -7s;
@@ -44,7 +47,7 @@
 .blob3 {
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle, #f97316, #ffc0cb);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25), #f3c3d8);
   top: 40%;
   left: 50%;
   animation-delay: -14s;
@@ -103,22 +106,22 @@
 .title {
   font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 800;
-  background: linear-gradient(135deg, #ff1493, #ffc0cb, #ff69b4);
+  background: linear-gradient(135deg, #6b2f8a, #b35aa6, #e07aa1);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradientShift 3s ease infinite, breathe 3s ease-in-out infinite;
-  text-shadow: 0 0 40px rgba(255, 20, 147, 0.5);
+  text-shadow: 0 0 26px rgba(107, 47, 138, 0.45);
   margin-bottom: 2rem;
-  filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.8));
+  filter: drop-shadow(0 0 12px rgba(107, 47, 138, 0.5));
 }
 
 .inline-heart {
   display: inline-block;
-  color: #ff1493;
+  color: #6b2f8a;
   animation: heartBeat 1.5s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px #ff1493);
+  filter: drop-shadow(0 0 8px rgba(107, 47, 138, 0.6));
 }
 
 @keyframes gradientShift {
@@ -156,9 +159,10 @@
   font-weight: 600;
   color: white;
   margin-bottom: 4rem;
-  text-shadow: 0 0 20px rgba(255, 105, 180, 0.8),
-               0 0 40px rgba(255, 20, 147, 0.6);
+  text-shadow: 0 0 18px rgba(255, 160, 200, 0.7),
+               0 0 32px rgba(230, 130, 180, 0.45);
 }
+
 
 .letter {
   display: inline-block;
@@ -189,39 +193,39 @@
   font-size: 2rem;
   font-weight: 800;
   color: white;
-  background: rgba(255, 255, 255, 0.15);
+  background: linear-gradient(135deg, #6b2f8a 0%, #b35aa6 55%, #f3a0bf 100%);
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.35);
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   animation: yesPulse 2s ease-in-out infinite;
-  box-shadow: 0 8px 32px rgba(255, 20, 147, 0.4),
-              inset 0 0 20px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 36px rgba(107, 47, 138, 0.45),
+              inset 0 0 22px rgba(255, 255, 255, 0.2);
   z-index: 100;
 }
 
 .yes-button:hover {
   transform: scale(1.1);
-  box-shadow: 0 12px 48px rgba(255, 20, 147, 0.6),
-              inset 0 0 30px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 14px 52px rgba(107, 47, 138, 0.6),
+              inset 0 0 34px rgba(255, 255, 255, 0.25);
 }
 
 @keyframes yesPulse {
   0%, 100% {
-    box-shadow: 0 8px 32px rgba(255, 20, 147, 0.4),
-                inset 0 0 20px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 36px rgba(107, 47, 138, 0.45),
+                inset 0 0 22px rgba(255, 255, 255, 0.2);
   }
   50% {
-    box-shadow: 0 12px 48px rgba(255, 20, 147, 0.8),
-                inset 0 0 30px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 60px rgba(107, 47, 138, 0.7),
+                inset 0 0 34px rgba(255, 255, 255, 0.25);
   }
 }
 
 .button-glow {
   position: absolute;
   inset: -2px;
-  background: linear-gradient(45deg, #ff1493, #8b5cf6, #ec4899, #f97316);
+  background: linear-gradient(45deg, #6b2f8a, #b35aa6, #f3a0bf, #c7b8f2);
   border-radius: 25px;
   opacity: 0;
   z-index: -1;
@@ -238,13 +242,12 @@
   inset: -4px;
   background: linear-gradient(
     45deg,
-    #ff1493,
-    #ff69b4,
-    #8b5cf6,
-    #ec4899,
-    #f97316,
-    #ffc0cb,
-    #ff1493
+    #6b2f8a,
+    #b35aa6,
+    #f3a0bf,
+    #c7b8f2,
+    #e6a7c7,
+    #6b2f8a
   );
   border-radius: 25px;
   z-index: -2;
